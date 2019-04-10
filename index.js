@@ -40,6 +40,7 @@ app.get('/todo', async (request, response) => {
 });
 app.get('/todo/:id', async (request, response) => {
   const id = request.params.id;
+  alert(id);
   const addr = `https://jsonplaceholder.typicode.com/todos/${id}`;
   try {
     const todo = await axios.get(addr)
