@@ -25,14 +25,24 @@ app.get('/', (request, response) => {
 });
 
 app.get('/greeting', (request, response) => {
-  // FIXME: If a name is not given, the app says 'Hello undefined'
-  const message = `Hello ${request.query.name}`;
+  const message = `Hello ${request.query.name || 'Person'}`;
   response.status(200).send(message);
 });
 
 app.get('/todo', async (request, response) => {
   try {
     const todo = await axios.get('https://jsonplaceholder.typicode.com/todos/1')
+      .then(res => res.data);
+    response.json(todo);
+  } catch (e) {
+    console.log(e);
+  }
+});
+app.get('/todo/:id', async (request, response) => {
+  const id = request.params.id;
+  const addr = `https://jsonplaceholder.typicode.com/todos/${id}`;
+  try {
+    const todo = await axios.get(addr)
       .then(res => res.data);
     response.json(todo);
   } catch (e) {
